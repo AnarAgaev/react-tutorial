@@ -1,32 +1,26 @@
-import { Component } from "react";
+import { useState } from "react";
 
-const initialState = {
-  name: '',
-  email: ''
-}
-
-class Form extends Component {
-
-  state = initialState;
-
-  handleChange = (e) => {
-    this.setState({
-      ...this.state,
-      [e.target.name]: e.target.value
+const Form = ({ addCharacter }) => {
+  
+  const [state, setState] = useState({name: '', email: ''})
+  
+  const handleChange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value 
     })
   }
 
-  handleSubmit = () => {
-    const {name, email} = this.state
+  const handleSubmit = () => {
+    const {name, email} = state
 
     if (name !== '' && email !== '') {
-      this.props.addCharacter(name, email)
-      this.setState(initialState)
+      addCharacter(name, email)
+      setState({name: '', email: ''})
     }
   }
 
-  render() {
-    return(
+  return(
       <>
         <h2>Add New Item</h2>
         <form action="#">
@@ -35,8 +29,8 @@ class Form extends Component {
             <input type="text" 
               name="name" 
               placeholder="Enter a name here"
-              value={this.state.name}
-              onChange={this.handleChange} />
+              value={state.name}
+              onChange={handleChange} />
           </label>
 
           <label>
@@ -44,18 +38,17 @@ class Form extends Component {
             <input type="email" 
               name="email" 
               placeholder="Enter an email here"
-              value={this.state.email}
-              onChange={this.handleChange} />
+              value={state.email}
+              onChange={handleChange} />
           </label>
           
           <button type="button" 
-            onClick={this.handleSubmit}>
+            onClick={handleSubmit}>
             Submit
           </button>
         </form>
       </>
     )
-  }
 }
 
 export default Form

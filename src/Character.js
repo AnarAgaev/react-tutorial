@@ -1,21 +1,22 @@
-import { Component } from "react";
+const Character = ({data, removeCharacter}) => {
+  const { id, name, email } = data
 
-class Character extends Component {
-  render() {
-    const { id, name, email } = this.props.data
-    return(
-      <tr>
-        <td>{name}</td>
-        <td>{email}</td>
-        <td>
-          <button type="button" 
-            onClick={() => this.props.removeCharacter(id)}>
-            Delete
-          </button>
-        </td>
-      </tr>
-    )
+  const handleClick = () => {
+    removeCharacter(id)
   }
+
+  return(
+    <tr>
+      <td>{name}</td>
+      <td>{email}</td>
+      <td>
+        <button type="button" 
+          onClick={handleClick}>
+          Delete
+        </button>
+      </td>
+    </tr>
+  )
 }
 
 export default Character

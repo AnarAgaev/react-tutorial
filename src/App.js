@@ -1,14 +1,15 @@
-import React, { Component } from 'react'
+
+import { useState, useEffect } from 'react'
 import Header from './Header';
 import Table from './Table';
 import Form from './Form';
 import './App.scss';
 
-class App extends Component {
+const App = () => {
 
-  state = { characters: [] }
+  const [state, setState] = useState({ characters: [] })
 
-  componentDidMount() {
+  useEffect(() => {
     const getData = async () => {
       const res = await fetch('https://jsonplaceholder.typicode.com/users?_limit=5')
       const json = await res.json()
@@ -17,30 +18,26 @@ class App extends Component {
         return {id, name, email}
       })
 
-      this.setState({
-        ...this.state,
+      setState({
+        ...state,
         characters: data
       })
     }
 
     getData()
-  }
+  }, [])
 
-  removeCharacter = (id) => {
-    let characters = this.state
+  const removeCharacter = (id) => {
+    let characters = state
       .characters.filter(i => i.id !== id)
 
-    this.setState({ 
-      ...this.state,
-      characters
-    })
+    setState({characters})
   }
 
-  addCharacter = (name, email) => {
-    this.setState({
-      ...this.state,
+  const addCharacter = (name, email) => {
+    setState({
       characters: [
-        ...this.state.characters,
+        ...state.characters,
         {
           id: Date.now(),
           name,
@@ -50,16 +47,14 @@ class App extends Component {
     })
   }
 
-  render() {
-    return(
-      <section>
-        <Header />
-        <Table characters={this.state.characters} 
-          removeCharacter={this.removeCharacter} />
-        <Form addCharacter={this.addCharacter} />
-      </section>
-    )
-  }
+  return(
+    <section>
+      <Header />
+      <Table characters={state.characters} 
+        removeCharacter={removeCharacter} />
+      <Form addCharacter={addCharacter} />
+    </section>
+  )
 }
 
 export default App
