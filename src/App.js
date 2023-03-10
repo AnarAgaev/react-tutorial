@@ -1,40 +1,52 @@
 import React, { Component } from 'react'
+import Header from './Header';
+import Table from './Table';
+import Form from './Form';
 import './App.scss';
 
+const mockData = [
+  { id: 1, name: 'Smith', job: 'Secret Agent' },
+  { id: 2, name: 'Forest', job: 'Worker' },
+  { id: 3, name: 'Susan', job: 'Waiter' }
+]
+
 class App extends Component {
+
+  state = {
+    characters: mockData
+  }
+
+  removeCharacter = (id) => {
+    let characters = this.state
+      .characters.filter(i => i.id !== id)
+
+    this.setState({ 
+      ...this.state,
+      characters
+    })
+  }
+
+  addCharacter = (name, job) => {
+    this.setState({
+      ...this.state,
+      characters: [
+        ...this.state.characters,
+        {
+          id: Date.now,
+          name,
+          job
+        }
+      ]
+    })
+  }
+
   render() {
     return(
       <section>
-        <h1>React Totorial</h1>
-        <p>Add a character with a name and a job to the table.</p>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Remove</th>
-            </tr>
-          </thead>
-          <tbody>
-              <tr>
-                <td>Name example</td>
-                <td>Job example</td>
-                <td><button type="button">Delete</button></td>
-              </tr>
-          </tbody>
-        </table>
-        <h2>Add New Item</h2>
-        <form action="#">
-          <label>
-            <span>Name</span>
-            <input type="text" name="name" placeholder="Enter a name here" />
-          </label>
-          <label>
-            <span>Job</span>
-            <input type="text" name="job" placeholder="Enter a job here" />
-          </label>
-          <button type="button">Submit</button>
-        </form>
+        <Header />
+        <Table characters={this.state.characters} 
+          removeCharacter={this.removeCharacter} />
+        <Form addCharacter={this.addCharacter} />
       </section>
     )
   }
