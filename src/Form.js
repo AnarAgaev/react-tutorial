@@ -2,7 +2,7 @@ import { Component } from "react";
 
 const initialState = {
   name: '',
-  job: ''
+  email: ''
 }
 
 class Form extends Component {
@@ -17,12 +17,12 @@ class Form extends Component {
   }
 
   handleSubmit = () => {
-    const {name, job} = this.state
+    const {name, email} = this.state
 
-    if (name === '' || job === '') return
-    
-    this.props.addCharacter(name, job)
-    this.setState(initialState)
+    if (name !== '' && email !== '') {
+      this.props.addCharacter(name, email)
+      this.setState(initialState)
+    }
   }
 
   render() {
@@ -40,11 +40,11 @@ class Form extends Component {
           </label>
 
           <label>
-            <span>Job</span>
-            <input type="text" 
-              name="job" 
-              placeholder="Enter a job here"
-              value={this.state.job}
+            <span>Email</span>
+            <input type="email" 
+              name="email" 
+              placeholder="Enter an email here"
+              value={this.state.email}
               onChange={this.handleChange} />
           </label>
           

@@ -4,16 +4,26 @@ import Table from './Table';
 import Form from './Form';
 import './App.scss';
 
-const mockData = [
-  { id: 1, name: 'Smith', job: 'Secret Agent' },
-  { id: 2, name: 'Forest', job: 'Worker' },
-  { id: 3, name: 'Susan', job: 'Waiter' }
-]
-
 class App extends Component {
 
-  state = {
-    characters: mockData
+  state = { characters: [] }
+
+  componentDidMount() {
+    const getData = async () => {
+      const res = await fetch('https://jsonplaceholder.typicode.com/users?_limit=5')
+      const json = await res.json()
+
+      const data = json.map(({id, name, email}) => {
+        return {id, name, email}
+      })
+
+      this.setState({
+        ...this.state,
+        characters: data
+      })
+    }
+
+    getData()
   }
 
   removeCharacter = (id) => {
@@ -26,15 +36,15 @@ class App extends Component {
     })
   }
 
-  addCharacter = (name, job) => {
+  addCharacter = (name, email) => {
     this.setState({
       ...this.state,
       characters: [
         ...this.state.characters,
         {
-          id: Date.now,
+          id: Date.now(),
           name,
-          job
+          email
         }
       ]
     })

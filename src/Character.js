@@ -2,11 +2,11 @@ import { Component } from "react";
 
 class Character extends Component {
   render() {
-    const { id, name, job } = this.props.data
+    const { id, name, email } = this.props.data
     return(
       <tr>
         <td>{name}</td>
-        <td>{job}</td>
+        <td>{email}</td>
         <td>
           <button type="button" 
             onClick={() => this.props.removeCharacter(id)}>
